@@ -1,3 +1,11 @@
+# Video
+*.avi
+*.mp4
+
+# torch
+*.pt
+*.pth
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
