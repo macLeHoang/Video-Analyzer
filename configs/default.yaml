@@ -1,0 +1,9 @@
+Detection:
+  model  : "yolov8"
+  weight : ""
+  imgsz  : (768, 1280)
+  conf   : 0.25
+  classes: (0, )
+  verbose: False
+  device : "cpu"
+  kwargs : None 
