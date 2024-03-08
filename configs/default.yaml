@@ -1,9 +1,9 @@
 Detection:
   model  : "yolov8"
-  weight : ""
-  imgsz  : (768, 1280)
+  weight : "weights/yolov8l_crowdhuman-human-only_50e_1024.pt"
+  imgsz  : [768,1280]
   conf   : 0.25
-  classes: (0, )
+  classes: [0,]
   verbose: False
   device : "cpu"
   kwargs : None 
