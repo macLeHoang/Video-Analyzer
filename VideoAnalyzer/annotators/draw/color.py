@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List, Tuple
 
 DEFAULT_COLOR_PALETTE = [
     "A351FB",
@@ -24,6 +25,25 @@ DEFAULT_COLOR_PALETTE = [
     "FF39C9",
 ]
 
+LEGACY_COLOR_PALETTE = [
+    "#A351FB",
+    "#E6194B",
+    "#3CB44B",
+    "#FFE119",
+    "#0082C8",
+    "#F58231",
+    "#911EB4",
+    "#46F0F0",
+    "#F032E6",
+    "#D2F53C",
+    "#FABEBE",
+    "#008080",
+    "#E6BEFF",
+    "#AA6E28",
+    "#FFFAC8",
+    "#800000",
+    "#AAFFC3",
+]
 
 def _validate_color_hex(color_hex: str):
     color_hex = color_hex.lstrip("#")
@@ -45,14 +65,6 @@ class Color:
         g (int): Green channel value (0-255).
         b (int): Blue channel value (0-255).
 
-    Example:
-        ```python
-        import supervision as sv
-
-        sv.Color.WHITE
-        # Color(r=255, g=255, b=255)
-        ```
-
     | Constant   | Hex Code   | RGB              |
     |------------|------------|------------------|
     | `WHITE`    | `#FFFFFF`  | `(255, 255, 255)`|
@@ -69,23 +81,18 @@ class Color:
     b: int
 
     @classmethod
-    def from_hex(cls, color_hex: str):
-        """
-        Create a Color instance from a hex string.
+    def from_hex(cls, color_hex: str) -> Color:
+        """Create a Color instance from a hex string.
 
-        Args:
-            color_hex (str): Hex string of the color.
-
+        Parameters:
+        -----------
+            color_hex (str)
+              Hex string of the color.
+        
         Returns:
-            Color: Instance representing the color.
-
-        Example:
-            ```python
-            import supervision as sv
-
-            sv.Color.from_hex('#ff00ff')
-            # Color(r=255, g=0, b=255)
-            ```
+        -----------
+            Color
+              Instance representing the color.
         """
         _validate_color_hex(color_hex)
         color_hex = color_hex.lstrip("#")
@@ -93,4 +100,57 @@ class Color:
             color_hex = "".join(c * 2 for c in color_hex)
         r, g, b = (int(color_hex[i : i + 2], 16) for i in range(0, 6, 2))
         return cls(r, g, b)
+    
+    def as_rgb(self) -> Tuple[int, int, int]:
+        return self.r, self.g, self.b
 
+    def as_bgr(self) -> Tuple[int, int, int]:
+        return self.b, self.g, self.r
+    
+    @classmethod
+    def WHITE(cls):
+        return Color.from_hex("#FFFFFF")
+
+    @classmethod
+    def BLACK(cls):
+        return Color.from_hex("#000000")
+
+    @classmethod
+    def RED(cls):
+        return Color.from_hex("#FF0000")
+
+    @classmethod
+    def GREEN(cls):
+        return Color.from_hex("#00FF00")
+
+    @classmethod
+    def BLUE(cls):
+        return Color.from_hex("#0000FF")
+
+    @classmethod
+    def YELLOW(cls):
+        return Color.from_hex("#FFFF00")
+
+
+@dataclass
+class ColorPalette:
+    colors: List[Color]
+
+    @classmethod
+    def DEFAULT(cls) -> ColorPalette:
+        return ColorPalette.from_hex(color_hex_list=DEFAULT_COLOR_PALETTE)
+
+    @classmethod
+    def LEGACY(cls) -> ColorPalette:
+        return ColorPalette.from_hex(color_hex_list=LEGACY_COLOR_PALETTE)
+
+    @classmethod
+    def from_hex(cls, color_hex_list: List[str]) -> ColorPalette:
+        colors = [Color.from_hex(color_hex) for color_hex in color_hex_list]
+        return cls(colors)
+
+    def by_idx(self, idx: int) -> Color:
+        if idx < 0:
+            raise ValueError("idx argument should not be negative")
+        idx = idx % len(self.colors)
+        return self.colors[idx]
