@@ -1,1 +1,1 @@
-from .model_zoo import model_zoo
+from .model_zoo import detector_zoo

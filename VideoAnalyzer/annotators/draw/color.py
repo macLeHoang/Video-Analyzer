@@ -81,7 +81,7 @@ class Color:
     b: int
 
     @classmethod
-    def from_hex(cls, color_hex: str) -> Color:
+    def from_hex(cls, color_hex: str):
         """Create a Color instance from a hex string.
 
         Parameters:
@@ -137,15 +137,15 @@ class ColorPalette:
     colors: List[Color]
 
     @classmethod
-    def DEFAULT(cls) -> ColorPalette:
+    def DEFAULT(cls):
         return ColorPalette.from_hex(color_hex_list=DEFAULT_COLOR_PALETTE)
 
     @classmethod
-    def LEGACY(cls) -> ColorPalette:
+    def LEGACY(cls):
         return ColorPalette.from_hex(color_hex_list=LEGACY_COLOR_PALETTE)
 
     @classmethod
-    def from_hex(cls, color_hex_list: List[str]) -> ColorPalette:
+    def from_hex(cls, color_hex_list: List[str]):
         colors = [Color.from_hex(color_hex) for color_hex in color_hex_list]
         return cls(colors)
 

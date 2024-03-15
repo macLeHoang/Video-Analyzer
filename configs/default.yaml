@@ -1,9 +1,19 @@
-Detection:
+detection:
   model  : "yolov8"
   weight : "weights/yolov8l_crowdhuman-human-only_50e_1024.pt"
   imgsz  : [768,1280]
-  conf   : 0.25
+  conf   : 0.65
   classes: [0,]
   verbose: False
-  device : "cpu"
+  device : "cuda"
   kwargs : None 
+
+annotation: 
+  active: False
+  save  : False
+  show  : False
+  print : False
+
+paths: 
+  root_dir  : ${oc.env:PROJECT_ROOT}
+  log_dir   : ${paths.root_dir}/logs
